@@ -1,6 +1,6 @@
 // Import necessary modules
-import pkg from "whatsapp-web.js";
-const { Client, MessageMedia } = pkg;
+import wweb, { LocalAuth } from "whatsapp-web.js";
+const { Client, MessageMedia } = wweb;
 import qrcode from "qrcode-terminal";
 import { Innertube } from "youtubei.js";
 import * as ytdl from "ytdl-core";
@@ -8,7 +8,22 @@ import * as fs from "fs";
 import * as ffmpeg from "fluent-ffmpeg";
 
 // Create a new WhatsApp client instance
-const client = new Client();
+const client = new Client({
+    authStrategy: new LocalAuth({ dataPath: './session' }),
+    puppeteer: {
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process', // <- this one doesn't works in Windows
+        '--disable-gpu',
+      ],
+    },
+  });
 
 // Display QR code for authentication
 client.on("qr", (qr) => {
