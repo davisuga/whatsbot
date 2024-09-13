@@ -1,6 +1,6 @@
 // Import necessary modules
-import wweb, { LocalAuth } from "whatsapp-web.js";
-const { Client, MessageMedia } = wweb;
+import wweb from "whatsapp-web.js";
+const { Client, MessageMedia,  LocalAuth } = wweb;
 import qrcode from "qrcode-terminal";
 import { Innertube } from "youtubei.js";
 import * as ytdl from "ytdl-core";
